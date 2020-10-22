@@ -34,13 +34,17 @@ def beam2local_def_disp(ex, ey, disp_global):
     unit_element_vector = element_vector / np.linalg.norm(element_vector)
     L0 = math.sqrt(element_vector @ element_vector)
 
+    # Deformed position and unit vector along element
     ex_def = ex + [disp_global[0], disp_global[3]]
     ey_def = ey + [disp_global[1], disp_global[4]]
 
+    # The deformed beam 
     element_vector_def_x = np.array([ex_def[1] - ex_def[0], ey_def[1] - ey_def[0]])
-    unit_element_vector_def_x = element_vector_def_x / np.linalg.norm()
+    # Length of deformed beam
+    unit_element_vector_def_x = element_vector_def_x / np.linalg.norm(element_vector_def_x)
     Ld = math.sqrt(element_vector_def_x @ element_vector_def_x)
 
+    # Ortogonal of deformed beam
     unit_element_vector_def_y = np.array([-unit_element_vector_def_x[1], unit_element_vector_def_x[0]])
 
     R1 = rot_matrix(disp_global[2])
