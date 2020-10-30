@@ -42,6 +42,7 @@ def beam2local_def_disp(ex, ey, disp_global):
     element_vector_def_x = np.array([ex_def[1] - ex_def[0], ey_def[1] - ey_def[0]])
     # Length of deformed beam
     unit_element_vector_def_x = element_vector_def_x / np.linalg.norm(element_vector_def_x)
+    # print("unitvector of x", unit_element_vector_def_x)
     Ld = math.sqrt(element_vector_def_x @ element_vector_def_x)
 
     # Ortogonal of deformed beam
@@ -106,7 +107,9 @@ def beam2corot_Ke_and_Fe(ex, ey, ep, disp_global):
         [0., 0., 0., 0., 0., 0.]
     ])
 
-    Ke_global = Te_local.T @ (Ke_local + Kg_local) @ Te_local
+    # Ke_global = Te_local.T @ (Ke_local + Kg_local) @ Te_local
+    Ke_global = Te_local.T @ (Ke_local) @ Te_local
+    # print(disp_global)
 
     return Ke_global, fe_int_global
 
@@ -121,10 +124,17 @@ def beam2corot_Te(ex, ey):
     :param list eq: distributed loads, local directions [qx, qy]
     :return mat Te: element transformation from global to local
     """
-
+    # print("The x vector", ex)
+    # print("The y vector", ey)
     n = np.array([ex[1] - ex[0], ey[1] - ey[0]])
+    # print("n is ", n)
     L = np.linalg.norm(n)
     n = n / L
+    if math.isnan(n[0]):
+        print(L)
+        raise Exception("There is a Nan among our midsts")
+        
+
 
     Te = np.array([
         [n[0], n[1], 0., 0., 0., 0.],
