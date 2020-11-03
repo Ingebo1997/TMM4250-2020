@@ -107,8 +107,8 @@ def beam2corot_Ke_and_Fe(ex, ey, ep, disp_global):
         [0., 0., 0., 0., 0., 0.]
     ])
 
-    # Ke_global = Te_local.T @ (Ke_local + Kg_local) @ Te_local
-    Ke_global = Te_local.T @ (Ke_local) @ Te_local
+    Ke_global = Te_local.T @ (Ke_local + Kg_local) @ Te_local
+    # Ke_global = Te_local.T @ (Ke_local) @ Te_local
     # print(disp_global)
 
     return Ke_global, fe_int_global
